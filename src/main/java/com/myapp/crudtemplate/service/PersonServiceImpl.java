@@ -19,9 +19,19 @@ public class PersonServiceImpl implements PersonService {
         this.personRepository = personRepository;
     }
 
+    // Map Person entity to PersonDTO
+    public PersonDTO mapToDTO(Person person) {
+        return PersonDTO.builder()
+                .id(person.getId())
+                .username(person.getUsername())
+                .email(person.getEmail())
+                .mobile(person.getMobile())
+                .address(person.getAddress())
+                .build();
+    }
+
     @Override
-    public PersonDTO createPerson(PersonDTO personDTO) {
-        // Create Person entity from PersonDTO using builder
+    public PersonDTO create(PersonDTO personDTO) {
         Person person = Person.builder()
                 .username(personDTO.getUsername())
                 .email(personDTO.getEmail())
@@ -35,21 +45,21 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<PersonDTO> getAllPersons() {
+    public List<PersonDTO> getAll() {
         return personRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PersonDTO getPersonById(Long id) {
+    public PersonDTO getById(Long id) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Person not found"));
         return mapToDTO(person);
     }
 
     @Override
-    public PersonDTO updatePerson(Long id, PersonDTO personDTO) {
+    public PersonDTO update(Long id, PersonDTO personDTO) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Person not found"));
         person.setUsername(personDTO.getUsername());
@@ -63,18 +73,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deletePerson(Long id) {
+    public void delete(Long id) {
         personRepository.deleteById(id);
     }
 
-    // Map Person entity to PersonDTO
-    private PersonDTO mapToDTO(Person person) {
-        return PersonDTO.builder()
-                .id(person.getId())
-                .username(person.getUsername())
-                .email(person.getEmail())
-                .mobile(person.getMobile())
-                .address(person.getAddress())
-                .build();
-    }
 }
