@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public abstract class BaseController<T, D, ID> {
-
+    //TODO --- pagination
     protected abstract BaseService<T, D, ID> getService();
 
     @PostMapping
@@ -23,7 +23,7 @@ public abstract class BaseController<T, D, ID> {
 
     @GetMapping("/{id}")
     public ResponseEntity<D> getById(@PathVariable ID id) {
-        D dto = getService().getById((Long) id);
+        D dto = getService().getById(id);
         return ResponseEntity.ok(dto);
     }
 

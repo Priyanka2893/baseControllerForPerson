@@ -20,6 +20,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     // Map Person entity to PersonDTO
+    // TODO -- modelMapper
     public PersonDTO mapToDTO(Person person) {
         return PersonDTO.builder()
                 .id(person.getId())
